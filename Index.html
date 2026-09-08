@@ -1,0 +1,124 @@
+<indez.html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ikram Translator</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f7f5;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .box {
+      max-width: 600px;
+      margin: 30px auto;
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px #ccc;
+    }
+
+    h1 {
+      color: #16834a;
+    }
+
+    textarea {
+      width: 100%;
+      height: 150px;
+      padding: 12px;
+      box-sizing: border-box;
+      font-size: 18px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 12px 25px;
+      font-size: 18px;
+      background: #16834a;
+      color: white;
+      border: none;
+      border-radius: 10px;
+    }
+
+    #result {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f0f0f0;
+      border-radius: 10px;
+      font-size: 20px;
+      direction: rtl;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="box">
+
+    <h1>Ikram Translator</h1>
+
+    <p>English → Sindhi Translator</p>
+
+    <textarea id="englishText"
+      placeholder="Write English word or sentence..."></textarea>
+
+    <br>
+
+    <button onclick="translateText()">Translate</button>
+
+    <div id="result">
+      سنڌي ترجمو هتي ظاهر ٿيندو.
+    </div>
+
+  </div>
+
+  <script>
+    function translateText() {
+
+      let text = document
+        .getElementById("englishText")
+        .value
+        .trim()
+        .toLowerCase();
+
+      let translations = {
+        "hello": "سلام",
+        "good morning": "صبح بخير",
+        "good night": "شب بخير",
+        "thank you": "مهرباني",
+        "please": "مهرباني ڪري",
+        "welcome": "ڀلي ڪري آيا",
+        "how are you": "توهان ڪيئن آهيو؟",
+        "i am fine": "مان ٺيڪ آهيان",
+        "my name is ikram": "منهنجو نالو اڪرم آهي",
+        "what is your name": "توهان جو نالو ڇا آهي؟",
+        "friend": "دوست",
+        "house": "گهر",
+        "food": "کاڌو",
+        "water": "پاڻي",
+        "book": "ڪتاب",
+        "school": "اسڪول",
+        "teacher": "استاد",
+        "student": "شاگرد",
+        "love": "محبت",
+        "pakistan": "پاڪستان"
+      };
+
+      if (translations[text]) {
+        document.getElementById("result").innerText =
+          translations[text];
+      } else {
+        document.getElementById("result").innerText =
+          "معاف ڪجو، هي ترجمو هن وقت موجود ناهي.";
+      }
+    }
+  </script>
+
+</body>
+  </html>
