@@ -1,4 +1,4 @@
-<indez.html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -9,7 +9,7 @@
     body {
       font-family: Arial, sans-serif;
       background: #f2f7f5;
-      text-align: center;
+      margin: 0;
       padding: 20px;
     }
 
@@ -23,7 +23,13 @@
     }
 
     h1 {
+      text-align: center;
       color: #16834a;
+    }
+
+    p {
+      text-align: center;
+      color: #555;
     }
 
     textarea {
@@ -31,28 +37,43 @@
       height: 150px;
       padding: 12px;
       box-sizing: border-box;
-      font-size: 18px;
-      border-radius: 10px;
       border: 1px solid #ccc;
+      border-radius: 10px;
+      font-size: 18px;
+      resize: vertical;
     }
 
     button {
+      width: 100%;
       margin-top: 15px;
-      padding: 12px 25px;
-      font-size: 18px;
-      background: #16834a;
-      color: white;
+      padding: 14px;
       border: none;
       border-radius: 10px;
+      background: #16834a;
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #106638;
     }
 
     #result {
       margin-top: 20px;
       padding: 15px;
-      background: #f0f0f0;
+      min-height: 80px;
+      background: #f1f8f4;
       border-radius: 10px;
       font-size: 20px;
-      direction: rtl;
+      line-height: 1.6;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 20px;
+      color: #777;
+      font-size: 14px;
     }
   </style>
 </head>
@@ -63,62 +84,59 @@
 
     <h1>Ikram Translator</h1>
 
-    <p>English → Sindhi Translator</p>
+    <p>English to Sindhi Translator</p>
 
-    <textarea id="englishText"
-      placeholder="Write English word or sentence..."></textarea>
+    <textarea id="englishText" placeholder="Write English words or sentences here..."></textarea>
 
-    <br>
-
-    <button onclick="translateText()">Translate</button>
+    <button onclick="translateText()">Translate to Sindhi</button>
 
     <div id="result">
-      سنڌي ترجمو هتي ظاهر ٿيندو.
+      Sindhi translation will appear here.
+    </div>
+
+    <div class="footer">
+      Created by Ikram
     </div>
 
   </div>
 
   <script>
-    function translateText() {
+    async function translateText() {
 
-      let text = document
-        .getElementById("englishText")
-        .value
-        .trim()
-        .toLowerCase();
+      const text = document.getElementById("englishText").value.trim();
+      const result = document.getElementById("result");
 
-      let translations = {
-        "hello": "سلام",
-        "good morning": "صبح بخير",
-        "good night": "شب بخير",
-        "thank you": "مهرباني",
-        "please": "مهرباني ڪري",
-        "welcome": "ڀلي ڪري آيا",
-        "how are you": "توهان ڪيئن آهيو؟",
-        "i am fine": "مان ٺيڪ آهيان",
-        "my name is ikram": "منهنجو نالو اڪرم آهي",
-        "what is your name": "توهان جو نالو ڇا آهي؟",
-        "friend": "دوست",
-        "house": "گهر",
-        "food": "کاڌو",
-        "water": "پاڻي",
-        "book": "ڪتاب",
-        "school": "اسڪول",
-        "teacher": "استاد",
-        "student": "شاگرد",
-        "love": "محبت",
-        "pakistan": "پاڪستان"
-      };
+      if (text === "") {
+        result.innerText = "Please write something in English.";
+        return;
+      }
 
-      if (translations[text]) {
-        document.getElementById("result").innerText =
-          translations[text];
-      } else {
-        document.getElementById("result").innerText =
-          "معاف ڪجو، هي ترجمو هن وقت موجود ناهي.";
+      result.innerText = "Translating...";
+
+      try {
+
+        const url =
+          "https://api.mymemory.translated.net/get?q=" +
+          encodeURIComponent(text) +
+          "&langpair=en|sd";
+
+        const response = await fetch(url);
+        const data = await response.json();
+
+        if (data.responseData && data.responseData.translatedText) {
+          result.innerText = data.responseData.translatedText;
+        } else {
+          result.innerText = "Translation not found.";
+        }
+
+      } catch (error) {
+
+        result.innerText =
+          "Internet connection or translation service problem.";
+
       }
     }
   </script>
 
 </body>
-  </html>
+</html>
